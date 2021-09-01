@@ -1,4 +1,4 @@
-package com.jesen.mvp
+package com.jesen.mvp_talk
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

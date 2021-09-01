@@ -1,4 +1,4 @@
-package com.jesen.mvp
+package com.jesen.mvp_talk
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.jesen.mvp", appContext.packageName)
+        assertEquals("com.jesen.mvp_talk", appContext.packageName)
     }
 }
