@@ -10,3 +10,4 @@ rootProject.name = "AndStructTalk"
 include ':app'
 include ':mvp'
 include ':mvp_talk'
+include ':mvvm'
