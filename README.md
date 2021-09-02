@@ -3,29 +3,29 @@ android 架构 总结
 
 
 
-![MVP架构](./images/README-1630488526253.png)
+![MVP架构](./images/README-1630488526253.webp)
 
-![mvvm](./images/README-1630504690746.png)
+![mvvm](./images/README-1630504690746.webp)
 
 apt预编译与Activity没有关系，只跟布局文件里的databinding布局规范有关
 关系：MVVM是一种架构；dataBinding是一种辅助工具，可以用到MVP里面MVC里面。
 
-![问题解析](./images/README-1630510452231.png)
+![问题解析](./images/README-1630510452231.webp)
 
 
 DataBinding会扫描项目中含<Data></Data>标签的布局文件，生成如下文件：
 路径：build/intermediates/data_binding_layout_info_type_merge/debug/out/activity_login-layout.xml
-![activity_login-layout.xml](./images/README-1630512745198.png)
+![activity_login-layout.xml](./images/README-1630512745198.webp)
 
 根据他生成的文件路径：
 build/generated/ap_generated_sources/debug/out/com/jesen/mvvm/databinding/ActivityLoginBindingImpl.java
 
-![生成文件](./images/README-1630513231124.png)
+![生成文件](./images/README-1630513231124.webp)
 
 查看纯净的layout布局文件：
 build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_login.xml
 
-![布局](./images/README-1630513861517.png)
+![布局](./images/README-1630513861517.webp)
 
 假设场景，与MVVM无关，单纯探究DataBinding:
 ```xml
@@ -112,7 +112,7 @@ Activity中,通过Model设置View:
     }
 ```
 界面可以正常展示：
-![Model设置数据给View](./images/README-1630516080653.png)
+![Model设置数据给View](./images/README-1630516080653.webp)
 
 如果想让界面自动更新，比如5秒后自动更新：
 ```java
@@ -173,5 +173,5 @@ Activity中,通过Model设置View:
 ```
 
 单向绑定是Model层触发影响到View层，双向绑定是View层改变影响到Model层。
-![非双向与双向.png](./images/README-1630547072801.png)
+![非双向与双向.webp](./images/README-1630547072801.webp)
 在生成的文件ActivityMainBindingImpl.java 用到Handler和Looper循环，用到了new Runnable()创建大量对象
