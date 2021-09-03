@@ -7,4 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- 皮肤包颜色 -->
+    <color name="skin_background">#FF3F51B5</color>
+    <color name="skin_textColor">#FF000000</color>
+    <color name="skin_item_color">#FF123456</color>
 </resources>
