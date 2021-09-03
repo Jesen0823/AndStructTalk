@@ -59,6 +59,10 @@ public class SkinActivity extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * 默认皮肤
+     * @param themeColorId 主题色
+     * */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void defaultSkin(int themeColorId) {
         this.skinDynamic(null, themeColorId);
@@ -66,6 +70,7 @@ public class SkinActivity extends AppCompatActivity {
 
     /**
      * 动态换肤（api限制：5.0版本）
+     * @param themeColorId 主题色
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void skinDynamic(String skinPath, int themeColorId) {
@@ -82,7 +87,7 @@ public class SkinActivity extends AppCompatActivity {
     }
 
     /**
-     * 控件回调监听，匹配上则给控件执行换肤方法
+     * 控件回调监听，如果匹配则给控件执行换肤方法
      */
     protected void applyViews(View view) {
         if (view instanceof ViewsMatch) {

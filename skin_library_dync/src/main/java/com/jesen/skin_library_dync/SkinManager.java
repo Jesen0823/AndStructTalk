@@ -22,15 +22,17 @@ import java.util.Map;
  */
 
 public class SkinManager {
+    private static final String TAG = "SkinManager";
     private static SkinManager instance;
+
     private Application application;
-    // app 内置的资源
+    // app 默认内置的资源
     private Resources appResources;
     // 皮肤包里的资源
     private Resources skinResource;
     // 皮肤包资源所在包名
     private String skinPackageName;
-    // 是否应用app内置自带皮肤资源
+    // 是否加载应用app内置的自带皮肤资源
     private boolean isDefaultSkin;
     private Map<String, SkinCache> cacheSkin;
 
@@ -61,6 +63,7 @@ public class SkinManager {
         return instance;
     }
 
+
     /**
      * 加载皮肤包资源
      *
@@ -71,6 +74,7 @@ public class SkinManager {
             isDefaultSkin = true;
             return;
         }
+        Log.i(TAG,"loadSkinResources, skinPath: "+skinPath);
 
         // app冷启动，热启动可以取缓存
         if (cacheSkin.containsKey(skinPath)) {
@@ -86,18 +90,30 @@ public class SkinManager {
         try {
             // 创建资源管理器
             AssetManager assetManager = AssetManager.class.newInstance();
+
             // 通过反射执行方法AssetManager中的addAssetPath和 setApkAssets
-            Method addAssetPath = assetManager.getClass().getDeclaredMethod(ADD_ASSET_PATH, String.class);
-            addAssetPath.setAccessible(true);
-            addAssetPath.invoke(assetManager, skinPath);
+            Method addAssetPathMethod = assetManager.getClass().getDeclaredMethod(ADD_ASSET_PATH, String.class);
+            addAssetPathMethod.setAccessible(true);
+            addAssetPathMethod.invoke(assetManager, skinPath);
+            //==============================================================================
+            // 如果还是担心@hide限制，可以反射addAssetPathInternal()方法，参考源码366行 + 387行
+            //==============================================================================
 
             // 创建加载外部的皮肤包(net163.skin)文件Resources（注：依然是本应用加载）
             skinResource = new Resources(assetManager,
                     appResources.getDisplayMetrics(), appResources.getConfiguration());
 
-            // 根据apk文件路径（皮肤包也是apk文件），获取该应用的包名。兼容5.0 - 9.0（亲测）
+            // 根据apk文件路径（皮肤包也是apk文件），获取该应用的包名,固定写法。兼容5.0 - 9.0
+            if (application.getPackageManager()== null){
+                Log.d(TAG,"application getPackageName is null.............");
+            }
             skinPackageName = application.getPackageManager()
                     .getPackageArchiveInfo(skinPath, PackageManager.GET_ACTIVITIES).packageName;
+
+            if (skinPackageName== null){
+                Log.d(TAG,"application skinPackageName is null.............");
+                return;
+            }
 
             // 无法获取皮肤包应用的包名，则加载app内置资源
             isDefaultSkin = TextUtils.isEmpty(skinPackageName);
@@ -105,7 +121,7 @@ public class SkinManager {
                 cacheSkin.put(skinPath, new SkinCache(skinResource, skinPackageName));
             }
 
-            Log.e("skinPackageName >>> ", skinPackageName);
+            Log.e(TAG,"skinPackageName >>> "+skinPackageName);
         } catch (Exception e) {
             e.printStackTrace();
             isDefaultSkin = true;
@@ -127,6 +143,9 @@ public class SkinManager {
         String resourceName = appResources.getResourceEntryName(resourceId);
         String resourceType = appResources.getResourceTypeName(resourceId);
 
+        Log.d(TAG,"getSkinResourceIds, resourceName:"+resourceName+", " +
+                "resourceType:"+resourceType+",skinPackageName: "+skinPackageName);
+
         // 动态获取皮肤包内的指定资源ID
         // getResources().getIdentifier(“netease_bg”, “drawable”, “com.netease.skin.packages”);
         int skinResourceId = skinResource.getIdentifier(resourceName, resourceType, skinPackageName);
@@ -141,6 +160,8 @@ public class SkinManager {
     }
 
     //==============================================================================================
+
+    // 传入内置默认的resourceId，返回的是皮肤包里面的对应resourceId，找不到则仍然返回默认内置资源id
 
     public int getColor(int resourceId) {
         int ids = getSkinResourceIds(resourceId);
