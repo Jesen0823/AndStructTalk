@@ -2,6 +2,7 @@ package com.jesen.skin_library_dync.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
@@ -9,6 +10,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 
 import com.jesen.skin_library_dync.R;
+import com.jesen.skin_library_dync.SkinManager;
 import com.jesen.skin_library_dync.core.ViewsMatch;
 import com.jesen.skin_library_dync.model.AttrsBean;
 
@@ -52,9 +54,24 @@ public class SkinnableImageView extends AppCompatImageView implements ViewsMatch
         // 根据styleable获取控件某属性的resourceId
         int backgroundResourceId = attrsBean.getViewResource(key);
         if (backgroundResourceId > 0) {
-            // 兼容包转换
-            Drawable drawable = ContextCompat.getDrawable(getContext(), backgroundResourceId);
-            setImageDrawable(drawable);
+            // 是否默认皮肤
+            if (SkinManager.getInstance().isDefaultSkin()) {
+                // 兼容包转换
+                Drawable drawable = ContextCompat.getDrawable(getContext(), backgroundResourceId);
+                setImageDrawable(drawable);
+            } else {
+                // 获取皮肤包资源
+                Object skinResourceId = SkinManager.getInstance().getBackgroundOrSrc(backgroundResourceId);
+                // 兼容包转换
+                if (skinResourceId instanceof Integer) {
+                    int color = (int) skinResourceId;
+                    setImageResource(color);
+                    // setImageBitmap(); // Bitmap未添加
+                } else {
+                    Drawable drawable = (Drawable) skinResourceId;
+                    setImageDrawable(drawable);
+                }
+            }
         }
     }
 }

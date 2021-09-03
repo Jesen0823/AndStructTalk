@@ -43,10 +43,10 @@ public class MainActivity extends SkinActivity {
 
         if (("jesen_pkg").equals(PreferencesUtils.getString(this, "currentSkin"))) {
             skinDynamic(skinPath, R.color.skin_item_color);
-            PreferencesUtils.putString(this,"currentSkin","jesen_pkg");
+            //PreferencesUtils.putString(this,"currentSkin","jesen_pkg");
         } else {
             defaultSkin(R.color.purple_200);
-            PreferencesUtils.putString(this,"currentSkin","default");
+            //PreferencesUtils.putString(this,"currentSkin","default");
         }
     }
 
