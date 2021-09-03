@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/AndroidStudioOther/AndStructTalk/Test_skin_library/src/main/res/layout/activity_main.xml" value="0.27395833333333336" />
         <entry key="..\:/Android/AndroidStudioOther/AndStructTalk/databinding/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioOther/AndStructTalk/handler_talk/src/main/res/layout/activity_test.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioOther/AndStructTalk/mvp_talk/src/main/res/layout/activity_login.xml" value="0.1" />
